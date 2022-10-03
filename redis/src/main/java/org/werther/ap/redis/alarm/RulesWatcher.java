@@ -23,8 +23,10 @@ public class RulesWatcher {
         //度量有多少次符合告警条件后，才会触发告警
         alarmRule.setCount(4);
         alarmRule.setOp("<");
+        alarmRule.setSilencePeriod(5);
+        alarmRule.setMetricsName("test01");
 
-        runningContext.put("test01", alarmRule);
+        runningContext.put(alarmRule.getMetricsName(), alarmRule);
     }
 
     public AlarmRule findRunningRule(String metricsName) {

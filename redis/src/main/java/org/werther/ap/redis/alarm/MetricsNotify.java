@@ -1,5 +1,6 @@
 package org.werther.ap.redis.alarm;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -8,7 +9,9 @@ import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
+@Slf4j
 @Component
 public class MetricsNotify {
 
@@ -43,14 +46,18 @@ public class MetricsNotify {
         int period = alarmRule.getPeriod();
         //String threshold = alarmRule.getThreshold();
         int count = alarmRule.getCount();
-        boolean flag = add(metricName, period, count);
-        //1、false ,doAlarm
-        if( !flag ){
+        //静默时长
+        int silencePeriod = alarmRule.getSilencePeriod();
+
+        boolean isMatch = add(metricName, period, count, silencePeriod);
+        //1、true ,doAlarm
+        if( isMatch ){
             alarmCallback.doAlarm();
         }
     }
 
-    private boolean add(String key,int period, int count){
+
+    private boolean add(String key, int period, int count,int silencePeriod){
         long now = System.currentTimeMillis();
         key = KEY_PREFIX + key;
         String oldest = String.valueOf(now - period*1_000);
@@ -60,9 +67,10 @@ public class MetricsNotify {
         redisScript.setResultType(Long.class);
         //lua文件存放在resources目录下
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("alarm.lua")));
-        Long x = stringRedisTemplate.execute(redisScript, Arrays.asList(key), oldest,
-                score, String.valueOf(count), scoreValue);
-        // System.out.println(x);
+        List<String> keys = Arrays.asList(key, key+"_sp");
+        Long x = stringRedisTemplate.execute(redisScript, keys, oldest,
+                score, String.valueOf(count), scoreValue,  String.valueOf(silencePeriod));
+        log.info("lua 返回结果：{}",x);
         return x == 1;
     }
 

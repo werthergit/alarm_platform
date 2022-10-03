@@ -12,5 +12,6 @@ public class Metrics {
 
     private String value;
 
+    @Deprecated
     private long time;
 }

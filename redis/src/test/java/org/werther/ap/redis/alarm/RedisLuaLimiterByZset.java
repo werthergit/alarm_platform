@@ -1,4 +1,4 @@
-package org.werther.ap.redis;
+package org.werther.ap.redis.alarm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

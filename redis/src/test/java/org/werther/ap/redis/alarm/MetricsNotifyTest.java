@@ -15,9 +15,6 @@ public class MetricsNotifyTest {
     @Autowired
     private  MetricsNotify metricsNotify;
 
-    private RulesWatcher rulesWatcher;
-
-
     @Test
     public void redisLuaLimiterTests2() throws InterruptedException, IOException {
         //RulesWatcher rulesWatcher = new RulesWatcher();
@@ -25,7 +22,7 @@ public class MetricsNotifyTest {
         //MetricsNotify metricsNotify = new MetricsNotify(rulesWatcher, feishuHookCallback);
 
         for (int i = 0; i < 15; i++) {
-            Thread.sleep(3*1_000);
+            Thread.sleep(1*1_000);
             log.info("---i:{}", i);
             Metrics metrics = new Metrics();
             metrics.setMetricName("test01");
