@@ -1,4 +1,4 @@
-package org.werther.ap;
+package ap;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,5 +14,14 @@ public class Metrics {
     @Getter
     @Setter
     private long timeBucket;
+
+    @Setter
+    @Getter
+    private String metricsName;
+
+    @Setter
+    @Getter
+    private String id;
+
 
 }

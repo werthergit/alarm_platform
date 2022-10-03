@@ -1,0 +1,20 @@
+
+
+spring:
+  redis:
+    sentinel:
+      master: sentinel-saos-public-redis-sentinel-dev-6386
+      nodes: 192.168.9.72:6389,192.168.9.73:6390,192.168.46.150:6387
+    password: saos-public-redis-sentinel-dev1q2w3e
+
+#    database: 0
+#    password: saos-public-redis-sentinel-dev1q2w3e
+#    port: 6389
+#    host: 192.168.9.72
+#    lettuce:
+#      shutdown-timeout: 100ms
+#      pool:
+#        min-idle: 5
+#        max-idle: 10
+#        max-active: 8
+#        max-wait: 1ms
