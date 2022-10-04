@@ -10,7 +10,7 @@ public class Metrics {
 
     private String metricName;
 
-    private String value;
+    private Object value;
 
     @Deprecated
     private long time;

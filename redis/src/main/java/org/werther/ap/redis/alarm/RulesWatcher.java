@@ -17,13 +17,13 @@ public class RulesWatcher {
     public RulesWatcher(){
         runningContext = new HashMap<>();
         AlarmRule alarmRule = new AlarmRule();
-        alarmRule.setThreshold("1000");
         //评估度量标准的时间长度，单位秒
         alarmRule.setPeriod(10);
         //度量有多少次符合告警条件后，才会触发告警
         alarmRule.setCount(4);
-        alarmRule.setOp("<");
+        alarmRule.setThresholdExpressions("threshold < 1000");
         alarmRule.setSilencePeriod(5);
+
         alarmRule.setMetricsName("test01");
 
         runningContext.put(alarmRule.getMetricsName(), alarmRule);
