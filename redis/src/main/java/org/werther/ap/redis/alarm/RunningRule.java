@@ -36,9 +36,13 @@ public class RunningRule {
         //表达式为true OR 空，触发告警判断
         String expression = alarmRule.getThresholdExpressions();
         if("".equals(expression) || expression==null || isMatch(expression, metrics) ){
-            boolean isAlarm = checkAlarm(metrics.getMetricName(), period, count, silencePeriod);
+            String key = KEY_PREFIX+alarmRule.getAlarmRuleName()+"_"+metrics.getMetricName();
+            boolean isAlarm = checkAlarm(key, period, count, silencePeriod);
             if( isAlarm ){
-                alarmCallback.doAlarm();
+                AlarmMessage alarmMessage = new AlarmMessage();
+                alarmMessage.setRuleName(alarmRule.getAlarmRuleName());
+                alarmMessage.setMetricName(metrics.getMetricName());
+                alarmCallback.doAlarm(alarmMessage);
             }
         }
     }
@@ -55,7 +59,6 @@ public class RunningRule {
 
     private boolean checkAlarm(String key, int period, int count, int silencePeriod){
         long now = System.currentTimeMillis();
-         key = KEY_PREFIX + key;
         String oldest = String.valueOf(now - period*1_000);
         String score = String.valueOf(now);
         String scoreValue = score;

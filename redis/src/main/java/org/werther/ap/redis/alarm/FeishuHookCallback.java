@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FeishuHookCallback implements AlarmCallback{
     @Override
-    public void doAlarm() {
-        log.info("飞书提醒");
+    public void doAlarm(AlarmMessage alarmMessage) {
+        log.info("飞书提醒,rule:{}，MetricName:{}",alarmMessage.getRuleName(), alarmMessage.getMetricName());
     }
 }

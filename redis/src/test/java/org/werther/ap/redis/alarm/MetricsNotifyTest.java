@@ -26,7 +26,7 @@ public class MetricsNotifyTest {
             log.info("---i:{}", i);
             Metrics metrics = new Metrics();
             metrics.setValue(998+i);
-            metrics.setMetricName("test01");
+            metrics.setMetricName("m01");
             metricsNotify.notify(metrics);
         }
 

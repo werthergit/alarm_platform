@@ -24,12 +24,13 @@ public class MetricsNotify {
     public void notify(Metrics metrics){
         String metricName = metrics.getMetricName();
         //1、获得规则
-        AlarmRule alarmRule = rulesWatcher.findRunningRule(metricName);
-        //log.info("runningRules size：{}", runningRules.size());
-        if (alarmRule == null) {
+        List<AlarmRule> alarmRuleList = rulesWatcher.findRunningRule(metricName);
+        if (alarmRuleList == null) {
             return;
         }
-        runningRule.in(alarmRule, metrics);
+
+        //2、加入到时间窗口引擎
+        alarmRuleList.forEach(rule -> runningRule.in(rule, metrics));
     }
 
 
